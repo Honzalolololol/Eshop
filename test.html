@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>eShop Shopping Cart</title>
+    <style>
+        /* CSS for styling */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .cart {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .cart h2 {
+            margin-top: 0;
+        }
+        .cart ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .cart li {
+            margin-bottom: 5px;
+        }
+        .cart .total {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>eShop Shopping Cart</h1>
+
+    <button onclick="showCart()">View Cart</button> <!-- Button to show the cart -->
+
+    <div id="cart" class="cart" style="display:none;"> <!-- Cart is hidden by default -->
+        <h2>Cart</h2>
+        <ul id="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </ul>
+        <p class="total">Total: $<span id="cart-total">0.00</span></p>
+    </div>
+
+    <h2>Products</h2>
+    <ul id="product-list">
+        <!-- Product list will be dynamically added here -->
+        <li>
+            <span>Product 1</span>
+            <span>$10.00</span>
+            <input id="product1-quantity" type="number" min="1" max="10" value="1">
+            <button onclick="addToCart('Product 1', 10.00, 'product1-quantity')">Add to Cart</button>
+        </li>
+        <li>
+            <span>Product 2</span>
+            <span>$20.00</span>
+            <input id="product2-quantity" type="number" min="1" max="10" value="1">
+            <button onclick="addToCart('Product 2', 20.00, 'product2-quantity')">Add to Cart</button>
+        </li>
+        <li>
+            <span>Product 3</span>
+            <span>$30.00</span>
+            <input id="product3-quantity" type="number" min="1" max="10" value="1">
+            <button onclick="addToCart('Product 3', 30.00, 'product3-quantity')">Add to Cart</button>
+        </li>
+    </ul>
+
+    <script>
+        // JavaScript for shopping cart functionality
+        let cartItems = [];
+        let cartTotal = 0;
+
+        function addToCart(productName, price, quantityId) {
+            const quantityInput = document.getElementById(quantityId);
+            const quantity = parseInt(quantityInput.value); // Get quantity from input
+
+            const cartItem = { productName, price, quantity };
+            cartItems.push(cartItem);
+            cartTotal += price * quantity;
+
+            // Update cart UI
+            const cartItemsElement = document.getElementById('cart-items');
+            const cartTotalElement = document.getElementById('cart-total');
+            cartItemsElement.innerHTML += `<li>${productName} (${quantity}): $${(price * quantity).toFixed(2)}</li>`;
+            cartTotalElement.textContent = `Total: $${cartTotal.toFixed(2)}`;
+        }
+
+        function showCart() {
+            const cartElement = document.getElementById('cart');
+            cartElement.style.display = 'block'; // Show the cart
+        }
